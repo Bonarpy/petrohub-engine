@@ -106,7 +106,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,      # Izinkan list di atas
+    allow_origins=["*"],      # Izinkan list di atas
     allow_credentials=True,
     allow_methods=["*"],        # Izinkan semua method (GET, POST, dll)
     allow_headers=["*"],        # Izinkan semua header

@@ -106,10 +106,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://petrohub-fe.vercel.app", # Alamat Frontend Danlap
-        "http://localhost:5173"           # Agar di laptop juga tetap jalan
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

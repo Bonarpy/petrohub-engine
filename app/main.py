@@ -97,20 +97,15 @@ app = FastAPI(
     version="2.0.0"
 )
 
-# --- 2. SETTING CORS (Agar Frontend Bisa Masuk) ---
-origins = [
-    "http://localhost:5173",    # Vite React Default
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",    # Backup port
-]
-
+# --- 2. SETTING CORS (Versi Paksa) ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://petrohub-fe.vercel.app", "http://localhost:5173"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
     allow_headers=["*"],
 )
+
 
 # --- 3. GLOBAL ERROR HANDLER ---
 if has_custom_errors:

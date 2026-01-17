@@ -94,18 +94,17 @@ except ImportError:
 app = FastAPI(
     title="PetroHub API",
     description="Backend Engine for Material Balance & PVT",
-    version="2.0.0"
+    version="2.5.0" # Ganti ke 2.5.0 biar lo tau ini build terbaru!
 )
 
-# --- 2. SETTING CORS (Versi Paksa) ---
+# --- 2. SETTING CORS (Versi Paling Aman) ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://petrohub-fe.vercel.app", "http://localhost:5173"],
+    allow_origins=["*"], # Pake bintang saja karena vercel.json sudah handle security-nya
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 # --- 3. GLOBAL ERROR HANDLER ---
 if has_custom_errors:

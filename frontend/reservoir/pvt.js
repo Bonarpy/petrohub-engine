@@ -94,12 +94,12 @@ export async function hitungGas() {
 
     try {
         // 3. KIRIM KE SERVER
-        let response = await fetch("http://127.0.0.1:8000/pvt/gas/full", {
+        let response = await fetch("https://petrohub-engine.vercel.app/pvt/gas/full", {
             method: "POST",
+            mode: "cors", // Tambahkan ini khusus buat Safari
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dataPaket)
         });
-
         if (!response.ok) {
             let errorData = await response.json();
             alert("Error Server: " + JSON.stringify(errorData.detail));

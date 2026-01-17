@@ -56,7 +56,7 @@ function validateSingleInput(inputElement, min, max) {
 }
 
 // --- 2. FUNGSI UTAMA HITUNG (Dipanggil Tombol) ---
-async function hitungGas() {
+export async function hitungGas() {
     console.log("🚀 Starting Calculation...");
 
     // Cek dulu apakah ada kotak yang masih merah (Error)

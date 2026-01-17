@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetroEng Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .hero-section { background: linear-gradient(135deg, #0d6efd, #0a58ca); color: white; padding: 60px 0; margin-bottom: 30px; border-radius: 0 0 20px 20px; }
+        .feature-card { transition: transform 0.3s; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .card-icon { font-size: 3rem; margin-bottom: 10px; }
+        
+        /* Supaya dropdown di hover card terlihat rapi */
+        .dropdown-menu { border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: none; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">⛽ PetroHub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Reservoir
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="./reservoir/pvt.html">
+                                    <i class="bi bi-droplet"></i> PVT Analysis (Legacy)
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="./reservoir/material-balance.html">
+                                    <i class="bi bi-calculator"></i> Material Balance (New React) 🚀
+                                </a>
+                            </li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item disabled" href="#">Decline Curve (Soon)</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle disabled" href="#" role="button" data-bs-toggle="dropdown">
+                            Production
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">IPR / VLP</a></li>
+                            <li><a class="dropdown-item" href="#">Nodal Analysis</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link disabled" href="#">Well Log</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="#">Drilling</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Petroleum Engineering Integrated Software</h1>
+            <p class="lead">One platform for Reservoir, Production, Drilling, and Logging analysis.</p>
+            <p class="badge bg-warning text-dark">Week 1 Phase Completed</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row g-4">
+            
+            <div class="col-md-4">
+                <div class="card feature-card h-100 p-3 text-center">
+                    <div class="card-body">
+                        <div class="card-icon text-primary"><i class="bi bi-droplet-half"></i></div>
+                        <h3 class="card-title">Reservoir Engineering</h3>
+                        <p class="card-text text-muted">Comprehensive tools for fluid properties and reservoir performance.</p>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="reservoir/pvt.html" class="btn btn-outline-primary">
+                                <i class="bi bi-flask"></i> PVT Analysis
+                            </a>
+
+                            <a href="reservoir/material-balance.html" class="btn btn-outline-success">
+                                <i class="bi bi-lightning-charge"></i> Material Balance
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card feature-card h-100 p-3 text-center" style="opacity: 0.6;">
+                    <div class="card-body">
+                        <div class="card-icon text-success"><i class="bi bi-graph-up-arrow"></i></div>
+                        <h3 class="card-title">Production Engineering</h3>
+                        <p class="card-text text-muted">IPR, VLP, Nodal Analysis, and Artificial Lift Design.</p>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-secondary" disabled>Coming Soon</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card feature-card h-100 p-3 text-center" style="opacity: 0.6;">
+                    <div class="card-body">
+                        <div class="card-icon text-danger"><i class="bi bi-gear-wide-connected"></i></div>
+                        <h3 class="card-title">Drilling Engineering</h3>
+                        <p class="card-text text-muted">Hydraulics, Casing Design, and Kick Tolerance.</p>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-secondary" disabled>Coming Soon</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <small>&copy; 2026 Petroleum Engineering Dept. | Built with FastAPI & Bootstrap</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

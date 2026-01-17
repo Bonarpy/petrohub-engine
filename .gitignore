@@ -1,0 +1,63 @@
+# ==========================
+# BAGIAN BACKEND (PYTHON)
+# ==========================
+
+# 1. File Sampah Python (Compiled Files)
+# Ini otomatis dibuat Python biar cepat, tidak perlu di-upload
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 2. Virtual Environment
+# Folder ini isinya library instalasi (besar sekali).
+# Nanti Render/Teman akan install sendiri pakai requirements.txt
+venv/
+env/
+.venv/
+
+# 3. Rahasia & Konfigurasi Lokal
+# File .env biasanya berisi password/API Key. JANGAN DI-UPLOAD.
+.env
+.env.local
+
+# 4. Testing Cache
+# Kalau nanti jalankan pytest, folder ini akan muncul
+.pytest_cache/
+
+# 5. Database Lokal (Jika pakai SQLite nanti)
+*.sqlite3
+*.db
+
+# 6. Log Errors
+*.log
+
+# ==========================
+# BAGIAN FRONTEND (REACT/VITE)
+# ==========================
+
+# 1. Dependencies (Sangat Berat & Banyak)
+# Ini adalah folder terbesar. Di server nanti cukup 'npm install'.
+frontend/node_modules/
+
+# 2. Build Output (Hasil Produksi)
+# Folder ini muncul otomatis kalau kita jalankan 'npm run build'.
+# Isinya file hasil terjemahan mesin, tidak perlu di-upload.
+frontend/dist/
+frontend/build/
+
+# 3. Environment Variables (Rahasia)
+# Kunci API atau setting lokal Frontend.
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# 4. Logs (Catatan Error NPM)
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# 5. Editor/OS specific di dalam frontend (Optional safety)
+frontend/.DS_Store

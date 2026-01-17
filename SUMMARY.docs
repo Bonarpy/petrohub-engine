@@ -1,0 +1,173 @@
+Day 3
+Dasar-Dasar Rekayasa Perangkat Lunak: Transisi Menuju Arsitektur Modular
+1. Evolusi dari Pemrograman Imperatif ke Arsitektur Terstruktur Pada tahap awal pengembangan (Day 1 & 2), pendekatan yang digunakan bersifat monolithic scripting. Dalam paradigma ini, logika bisnis, antarmuka pengguna (input/output), dan inisialisasi server tercampur dalam satu entitas tunggal (main.py). Meskipun pendekatan ini efektif untuk prototyping cepat dan pembuktian konsep (proof of concept), ia memiliki kelemahan signifikan dalam hal skalabilitas (scalability) dan pemeliharaan (maintainability). Ketika kompleksitas sistem meningkat, kode yang tercampur (tightly coupled) menjadi sulit untuk diuji dan dikembangkan. Pembelajaran pada Day 3 menandai transisi krusial menuju praktik Software Engineering yang sesungguhnya, di mana fokus bergeser dari sekadar "membuat kode berjalan" menjadi "membangun sistem yang terorganisir".
+
+2. Prinsip Separation of Concerns (SoC) Konsep fundamental yang diterapkan pada sesi ini adalah Separation of Concerns (Pemisahan Kepentingan). Teori ini menyatakan bahwa sebuah sistem perangkat lunak harus dipecah menjadi bagian-bagian yang berbeda, di mana setiap bagian memiliki tanggung jawab tunggal dan spesifik. Dalam konteks aplikasi PVT ini, kita memisahkan sistem menjadi tiga lapisan utama: lapisan data (models), lapisan logika bisnis (services), dan lapisan antarmuka/routing (api). Pemisahan ini memastikan bahwa perubahan pada satu komponen (misalnya, mengubah rumus fisika gas) tidak akan merusak komponen lain (misalnya, cara server menerima permintaan HTTP), sehingga meningkatkan kohesi (cohesion) dan mengurangi ketergantungan (coupling).
+
+3. Implementasi Layered Architecture (Arsitektur Berlapis) Struktur folder yang baru dibangun (models, services, api) adalah manifestasi dari pola Layered Architecture.
+
+Data Transfer Object (DTO) Layer (models): Menggunakan pustaka Pydantic, kita mendefinisikan skema data yang ketat. Ini berfungsi sebagai kontrak formal antara klien dan server. Lapisan ini menjamin integritas data (validasi tipe data) sebelum diproses lebih lanjut, bertindak sebagai gatekeeper untuk mencegah kesalahan runtime akibat input yang tidak valid.
+
+Business Logic Layer (services): Ini adalah inti dari aplikasi (domain core). Semua perhitungan matematis dan algoritma fisika (seperti korelasi PVT) diisolasi di sini sebagai Pure Functions. Fungsi-fungsi ini bersifat deterministik dan independen dari kerangka kerja web apa pun, yang memudahkan proses pengujian unit (unit testing) dan penggunaan kembali (reusability) di masa depan.
+
+Interface/Controller Layer (api): Lapisan ini menangani protokol komunikasi (HTTP), mengarahkan permintaan ke layanan yang tepat, dan memformat respons untuk klien.
+
+4. Modularitas dan Orkestrasi Melalui Routing Penggunaan APIRouter dan restrukturisasi main.py memperkenalkan konsep modularitas. Dalam sistem berskala besar, aplikasi tidak dibangun sebagai satu blok raksasa, melainkan sebagai kumpulan modul independen yang disatukan. main.py kini bertindak sebagai Composition Root atau orkestrator yang tugas utamanya hanya menginisialisasi aplikasi dan menghubungkan berbagai modul (include_router). Struktur direktori yang menyertakan file __init__.py mengubah folder biasa menjadi Python Packages, memungkinkan pengelolaan namespace yang lebih baik dan impor modul yang terstruktur.
+
+/================================================================================================================================================================================/
+
+Day 4
+Integrasi Frontend dan Arsitektur Client-Server
+1. Transisi Menuju Arsitektur Full-Stack Terpisah (Decoupled Architecture) Pada tahap ini, pengembangan perangkat lunak bergeser dari sistem monolithic atau berbasis CLI (Command Line Interface) menuju arsitektur Client-Server yang modern. Dalam paradigma ini, aplikasi dipisahkan secara tegas menjadi dua entitas independen:
+
+Backend (Server-Side): Bertindak sebagai API Service yang menyediakan logika bisnis dan perhitungan komputasi (menggunakan Python/FastAPI). Backend bersifat "headless" atau tidak memiliki antarmuka visual.
+
+Frontend (Client-Side): Bertindak sebagai Presentation Layer (menggunakan HTML/JS) yang bertanggung jawab atas interaksi pengguna dan visualisasi data. Pemisahan ini memungkinkan pengembangan yang paralel, di mana perubahan pada antarmuka (UI) tidak mempengaruhi logika inti di server, selama kontrak komunikasi (API Schema) tetap dipatuhi
+
+2. Mekanisme Komunikasi Asinkron (Asynchronous HTTP Communication) Interaksi antara frontend dan backend difasilitasi oleh protokol HTTP melalui Application Programming Interface (API). Dalam sesi ini, kita mengimplementasikan pola Request-Response menggunakan JavaScript Fetch API.
+
+Payload Construction: Data input dari pengguna dikonversi menjadi format standar (JSON) sebelum dikirim.
+
+Non-Blocking I/O: Penggunaan sintaks async dan await sangat krusial. Hal ini memungkinkan antarmuka pengguna tetap responsif (tidak freeze) saat browser menunggu server menyelesaikan perhitungan matematis yang kompleks. Browser mengirim permintaan, melanjutkan tugas lain, dan baru memproses respons ketika data telah diterima.
+
+3. Kebijakan Keamanan Cross-Origin Resource Sharing (CORS) Salah satu kendala utama dalam integrasi web modern adalah kebijakan keamanan browser yang disebut Same-Origin Policy (SOP). Secara default, browser mencegah skrip pada satu domain (misalnya, file lokal atau port 5500) untuk mengakses sumber daya di domain/port yang berbeda (server API di port 8000). Untuk mengatasi ini, kita menerapkan Middleware CORS pada sisi server. Middleware ini menyisipkan header HTTP khusus (Access-Control-Allow-Origin) pada respons server, yang berfungsi sebagai "surat izin" bagi browser untuk menerima data dari sumber asing. Tanpa konfigurasi ini, komunikasi antar-komponen akan diblokir oleh protokol keamanan browser.
+
+4. Serialisasi Data dan Penanganan Tipe Data (Data Marshalling) Tantangan teknis muncul ketika bahasa pemrograman yang berbeda (Python vs JavaScript) harus bertukar data. JSON (JavaScript Object Notation) adalah standar pertukaran data, namun memiliki keterbatasan tipe data (hanya mendukung string, number, boolean, array, object).
+
+Kasus Bilangan Kompleks: Perhitungan teknik (seperti persamaan kubik EOS) sering menghasilkan bilangan imajiner/kompleks. Tipe data ini tidak dikenali oleh standar JSON.
+
+Sanitasi Data: Oleh karena itu, diperlukan lapisan logika tambahan di backend (serialization layer) untuk "membersihkan" atau mengonversi tipe data kompleks menjadi tipe data primitif (Float) sebelum dikirim ke klien. Kegagalan dalam proses ini menyebabkan Serialization Error (TypeError).
+
+/================================================================================================================================================================================/
+
+Day 5: Scalable Backend Architecture & PVT Engine Orchestration1. 
+PendahuluanPada tahap ini, pengembangan sistem beralih dari fokus fungsional (make it work) menuju fokus struktural dan skalabilitas (make it right). Modul ini memperkenalkan paradigma Layered Architecture (Arsitektur Berlapis) untuk memisahkan tanggung jawab antara logika bisnis, perhitungan matematis, dan antarmuka HTTP. Tujuannya adalah menciptakan Gas PVT Engine yang modular, mudah diuji (testable), dan siap untuk ekspansi (penambahan fluida minyak dan air) tanpa merusak fondasi kode yang sudah ada.2. Prinsip Arsitektur Perangkat Lunak (Software Architectural Patterns)Implementasi kode didasarkan pada prinsip Separation of Concerns (SoC), di mana sistem dibagi menjadi lapisan-lapisan terisolasi dengan tanggung jawab spesifik:A. Presentation Layer (API/Router)Komponen: api/gas.pyFungsi: Bertindak sebagai gerbang masuk (entry point) untuk permintaan HTTP.Batasan: Lapisan ini dilarang keras melakukan perhitungan matematis. Tugasnya hanya menerima Request JSON, memanggil Service, dan mengembalikan Response JSON.B. Orchestration Layer (Service)Komponen: services/gas_service.pyFungsi: Bertindak sebagai "otak" atau konduktor alur kerja.Logika: Mengatur urutan eksekusi algoritma (misal: Hitung properti kritis $\rightarrow$ Hitung Z-Factor $\rightarrow$ Hitung Bg $\rightarrow$ Hitung Densitas). Lapisan ini menghubungkan data input dengan rumus fisika.C. Domain Layer (Core Logic)Komponen: domain/gas/correlations.pyFungsi: Menyimpan kebenaran ilmiah (Scientific Truth).Karakteristik: Berisi fungsi murni (Pure Functions) yang hanya menerima angka dan mengembalikan angka (rumus fisika teknik perminyakan). Lapisan ini tidak boleh mengetahui tentang HTTP atau Database.3. Protokol Validasi & Integritas Data (Defensive Programming)Keamanan dan keakuratan sistem ditingkatkan melalui implementasi validasi ketat sebelum data diproses:Input Validation (validators/gas_validator.py): Menerapkan aturan batasan fisik (Physical Constraints) untuk menolak data anomali.Constraint: $P > 0$, $T > 0$.Range Check: $0.55 < \gamma_g < 1.3$ (untuk validitas korelasi standar).Type Safety (models/gas_schema.py): Menggunakan skema data (Pydantic Models) untuk menjamin tipe data yang konsisten (Float, String, Integer) di seluruh sistem.4. Desain API & Manajemen Payload (RESTful API Design)Pengembangan antarmuka komunikasi data menggunakan standar RESTful:Multi-Output Endpoint: Transisi dari single-purpose endpoint (hanya menghitung Z) menuju aggregated endpoint (/pvt/gas/full).Structured Response: Format JSON yang terstandarisasi memisahkan antara inputs (data yang dikirim user), results (hasil perhitungan), dan metadata (status, waktu eksekusi).5. Strategi Skalabilitas (Scalability Strategy)Struktur direktori dirancang menggunakan pendekatan Modular Monolith:Namespace by Fluid: Pengelompokan modul berdasarkan tipe fluida (Gas, Oil, Water) di dalam service dan domain.Extensibility: Penambahan fitur baru (misal: korelasi minyak) dilakukan dengan menambahkan file baru, bukan memodifikasi file gas yang sudah stabil (Open-Closed Principle).
+
+WEEK 2
+
+
+# **Module 2: Advanced Reservoir Engineering Systems**
+
+## **Day 1: System Architecture Design & API Contract Specification**
+
+### **1. Pendahuluan**
+
+Fase ini menandai dimulainya pengembangan modul **Material Balance Equation (MBE)**. Berbeda dengan modul PVT sebelumnya yang bersifat kalkulasi statis satu titik (*single-point*), modul MBE dirancang sebagai sistem dinamis yang memproses data deret waktu (*time-series production history*). Fokus utama Day 1 adalah pembentukan landasan arsitektur (*architectural scaffolding*) dan definisi kontrak data (*data contract*) sebelum implementasi logika algoritma yang kompleks.
+
+### **2. Metodologi Pengembangan (*Development Methodology*)**
+
+Pendekatan yang digunakan adalah **Contract-First Development**, di mana struktur input dan output didefinisikan secara ketat sebelum logika bisnis ditulis. Hal ini bertujuan untuk:
+
+* Menjamin konsistensi tipe data antara *client* (Frontend) dan *server* (Backend).
+* Mencegah kesalahan integritas data (*data integrity issues*) pada perhitungan iteratif.
+
+### **3. Implementasi Arsitektur (*Architectural Implementation*)**
+
+Sistem dikembangkan menggunakan pola **Modular Monolith** dengan prinsip **Separation of Concerns (SoC)** yang terbagi menjadi tiga lapisan utama:
+
+#### **A. Data Modeling Layer (`app/models`)**
+
+* **Objektif:** Menerjemahkan variabel fisis Persamaan Material Balance (Eq 7.1) menjadi skema data komputasi.
+* **Implementasi Teknis:**
+* Penggunaan **Pydantic** untuk validasi tipe data secara ketat (*strict typing*).
+* Penerapan struktur data **List/Array** untuk menangani `production_history` (Np, Wp, Gp, P), memungkinkan analisis data historis multi-tahun.
+* Pemisahan entitas data menjadi **Static Properties** (Reservoir Constants: ) dan **Dynamic Properties** (Time-dependent variables).
+
+
+
+#### **B. Service Orchestration Layer (`app/services`)**
+
+* **Objektif:** Menyediakan kerangka kerja logika bisnis (*Business Logic Framework*).
+* **Implementasi Teknis:**
+* Penerapan teknik **Stubbing**: Pembuatan fungsi kerangka (*skeleton function*) yang menerima input dan mengembalikan output valid tanpa melakukan perhitungan nyata.
+* Persiapan logika **Iterasi (Looping)**: Menyiapkan algoritma untuk memproses setiap titik data dalam *array* produksi secara sekuensial.
+
+
+
+#### **C. Interface Layer (`app/api`)**
+
+* **Objektif:** Mengekspos fungsionalitas sistem ke dunia luar melalui protokol HTTP.
+* **Implementasi Teknis:**
+* Pembuatan **RESTful Endpoint** (`POST /mbal/calculate`).
+* Isolasi *Routing*: Modul MBE memiliki router independen yang terpisah dari modul PVT, namun tetap terintegrasi dalam satu aplikasi utama (`main.py`).
+
+
+
+### **4. Kendala & Resolusi Teknis (*Technical Troubleshooting*)**
+
+Selama proses integrasi modul baru, ditemukan isu pada **Python Path Resolution** (`ModuleNotFoundError`).
+
+* **Analisis Akar Masalah:** Eksekusi server dari direktori *root* menyebabkan Python gagal mengenali impor modul relatif di dalam sub-paket.
+* **Resolusi:** Refaktorisasi seluruh pernyataan `import` menjadi **Absolute Imports** (menggunakan prefiks `app.`, contoh: `from app.models import ...`). Hal ini menegakkan struktur *namespace* yang jelas dan mencegah ambiguitas modul.
+
+### **5. Capaian Akhir (*Deliverables*)**
+
+Pada akhir sesi ini, sistem telah mencapai status **"Ready for Logic Implementation"**:
+
+1. **Validasi Input:** Sistem mampu menolak data yang tidak masuk akal secara fisika (misal: Tekanan < 0).
+2. **Struktur Data:** Backend siap menerima ribuan baris data produksi dalam satu *request*.
+3. **Konektivitas:** Jalur komunikasi antara Frontend dan Backend telah terbentuk dan terverifikasi melalui Swagger UI.
+
+---
+
+**Status Proyek:** *Infrastructure Ready*.
+**Agenda Selanjutnya (Day 2):** Transposisi Persamaan General Material Balance (Eq 7.1) ke dalam algoritma Python (Service Layer), mencakup perhitungan *Underground Withdrawal* (F) dan *Expansion Terms* (Eo, Eg, Efw).
+
+Day 2: Core Physics Engine & Multi-Point Computation
+
+1. Executive Summary
+Pada Day 2, fokus pengembangan adalah transisi dari arsitektur statis ke sistem komputasi dinamis. Kita berhasil mengimplementasikan Persamaan Material Balance (Eq 7.1) ke dalam lapisan logika bisnis yang mampu menangani data deret waktu (time-series production history). Sistem kini mampu menghitung parameter Withdrawal ($F$) dan Expansion ($E$) secara deterministik untuk ribuan titik data sekaligus.
+
+2. Implementasi Teknis (Technical Implementation)
+A. Domain Layer (app/domain/mbal/equations.py)Kita membangun "Jantung Fisika" yang terisolasi menggunakan prinsip Pure Functions.Physics Correction (User Contribution):Revisi fundamental pada perhitungan Total Underground Withdrawal ($F$).Koreksi logika Gas: $G_p$ lapangan dikonversi menjadi Free Gas dengan rumus $(G_p - N_p R_{so})$.Konsistensi Inflow/Outflow: Memastikan $W_p B_w$ masuk ke sisi kiri ($F$) dan tidak dikurangi ganda di sisi kanan ($W_e$).Atomic Calculation:Pemecahan rumus besar menjadi fungsi modular: calculate_F, calculate_Eo, calculate_Eg, calculate_Efw.Fungsi ini bersifat stateless (tidak menyimpan memori) dan deterministic (input sama = output sama).
+B. Service Layer (app/services/material_balance.py)Kita membangun "Mesin Produksi" yang mengorkestrasi data.Iteration Pattern: Mengimplementasikan looping logic untuk memproses array production_history.Data Transformation: Mengubah data mentah dari API ($P, N_p, G_p$) menjadi parameter teknik ($F, E_o, E_g$) yang siap untuk analisis lanjut.State Management: Menghitung variabel turunan seperti $\Delta P$ ($P_i - P_{now}$) secara otomatis di dalam loop.
+
+3. Keputusan Engineering Kunci (Key Engineering Decisions)
+Separation of Concerns (SoC):Domain: Hanya tahu matematika/fisika. Tidak tahu soal API atau JSON.Service: Hanya tahu cara me-looping data. Tidak tahu detail rumus fisika.Benefit: Kode Domain ini bisa langsung di-import ulang nanti di Week 3 untuk modul Havlena-Odeh tanpa perlu copy-paste (mencegah redundansi dan bug).
+Strict Physics Definition:Menetapkan standar bahwa $F$ adalah representasi total fluida yang keluar (Voidage), dan $W_e$ adalah murni Influx. Ini krusial agar grafik linearisasi nanti lurus dan valid.
+
+4. Status Sistem Saat Ini
+✅ Input: Mampu menerima data sejarah produksi (Array).✅ Process: Mampu menghitung $F, E_o, E_g, E_{fw}$ per titik tekanan.✅ Output: Menghasilkan JSON terstruktur yang berisi nilai fisik valid (bukan nol).⚠️ Pending: Belum ada validasi fisik (misal: $B_o < 0$ belum dicek error-nya secara detail) dan belum ada visualisasi grafik.
+
+Tentu, ini adalah **Recap Formal Day 3** dengan gaya narasi eksekutif dan struktur paragraf dominan yang Anda minta.
+
+---
+
+# Day 3: Validation Layer, Defensive Engineering & Smart Assumptions
+
+### 1. Executive Summary
+
+Pada Day 3, fokus pengembangan bergeser dari ekspansi kapabilitas hitung menuju penguatan integritas sistem (*system robustness*). Kita berhasil mentransformasi aplikasi dari sekadar "kalkulator pasif" menjadi *Engineering Engine* yang defensif dan cerdas. Pencapaian utama hari ini adalah implementasi arsitektur **Defense in Depth** (Pertahanan Berlapis) yang menolak input tidak valid secara fisika sebelum pemrosesan terjadi, serta penerapan fitur **Smart Assumptions** yang memungkinkan mesin beradaptasi secara dinamis terhadap konteks reservoir (misalnya: Volumetric vs. General) tanpa mengubah kode inti.
+
+### 2. Implementasi Teknis (Technical Implementation)
+
+**A. Domain Logic & Validation (app/domain/mbal/validators.py & exceptions.py)**
+Kita membangun lapisan keamanan semantik yang beroperasi di atas validasi tipe data dasar.
+
+* **Custom Exception Hierarchy:** Menciptakan "bahasa error" spesifik domain (seperti `PhysicalConstraintError`, `EngineeringConsistencyError`) yang memisahkan error logika bisnis dari error sistem generic.
+* **Cross-Field Logic:** Mengimplementasikan validator cerdas yang mampu memeriksa korelasi antar-variabel yang tidak bisa ditangani oleh Pydantic. Contoh krusial adalah validasi PVT, di mana sistem memastikan konsistensi antara Tekanan () dan Bubble Point () terhadap perilaku Gas dalam Larutan ().
+* **Machine-Readable Errors:** Memastikan setiap penolakan data disertai dengan metadata yang jelas (field mana yang salah, nilai berapa), yang krusial untuk *debugging* dan interaksi dengan Frontend/Go nantinya.
+
+**B. Smart Service Orchestration (app/services/material_balance.py)**
+Kita menyuntikkan kecerdasan kontekstual ke dalam *Service Layer*.
+
+* **Logic Switching (Saklar Rumus):** Mengintegrasikan `ReservoirAssumption` (Enum) yang bertindak sebagai saklar logika. Service kini mampu mendeteksi niat user (misal: "Volumetric Reservoir") dan secara otomatis mematikan variabel yang tidak relevan (seperti Influx  atau Gas Expansion ) dari persamaan.
+* **Simplified User Experience:** Dengan logika ini, user tidak perlu lagi mengisi nilai nol manual untuk parameter yang tidak terpakai; sistem yang menangani penyederhanaan persamaan Material Balance secara internal.
+
+**C. API Guardrails (app/main.py)**
+Kita memasang *Exception Handlers* global yang bertugas menerjemahkan "peluit peringatan" dari validator domain menjadi respons HTTP standar (400 Bad Request atau 422 Unprocessable Entity). Ini menjamin server tidak akan pernah *crash* (Internal Server Error 500) akibat input data yang buruk.
+
+### 3. Keputusan Engineering Kunci (Key Engineering Decisions)
+
+**Defense in Depth (Pydantic vs. Domain Validators)**
+Kita menerapkan strategi validasi dua lapis. **Layer 1 (Pydantic Models)** bertugas sebagai saringan kasar di pintu masuk untuk memeriksa sintaks dan tipe data (cegah nilai negatif, cegah string). **Layer 2 (Domain Validators)** bertugas sebagai saringan halus untuk memeriksa kebenaran fisika dan konsistensi logika teknik. Pemisahan ini krusial untuk menjaga kode tetap modular dan siap untuk integrasi Microservices di Week 3, di mana logika validasi fisika harus tetap berjalan meskipun data dikirim langsung via RPC/Internal Call (bypassing HTTP layer).
+
+**Explicit Assumption Management**
+Keputusan untuk menggunakan **Enum** dalam mengelola asumsi reservoir (dibandingkan membiarkan user mengosongkan field) adalah langkah strategis untuk menjamin determinisme perhitungan. Dengan menyatakan asumsi secara eksplisit (contoh: `NO_GAS_CAP`), kita menghilangkan ambiguitas matematika pada perhitungan  dan , yang akan sangat menentukan kelurusan garis pada grafik Havlena-Odeh nantinya.
+
+### 4. Status Sistem Saat Ini
+
+✅ **Secure:** Sistem menolak data yang melanggar hukum fisika (tekanan negatif, inkonsistensi PVT).
+✅ **Smart:** Sistem mampu memilih rumus yang tepat berdasarkan skenario reservoir (Volumetric, Undersaturated, dll).
+✅ **Communicative:** Output error berupa JSON terstruktur yang mudah dibaca oleh mesin lain (persiapan Golang).
+⚠️ **Pending:** Data output masih berupa angka mentah, belum dilakukan linearisasi sumbu () untuk kebutuhan visualisasi grafik.

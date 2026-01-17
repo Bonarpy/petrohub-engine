@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas PVT Calculator - PetroHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card-header { font-weight: 600; letter-spacing: 0.5px; }
+        .result-box { transition: all 0.3s; border-left: 4px solid transparent; }
+        .result-box:hover { transform: translateY(-3px); border-left: 4px solid #0d6efd; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">⛽ PetroHub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            Reservoir
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item active" href="pvt.html">
+                                    <i class="bi bi-droplet-half"></i> PVT Analysis
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="material-balance.html">
+                                    <i class="bi bi-lightning-charge"></i> Material Balance (New)
+                                </a>
+                            </li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <li>
+                                <a class="dropdown-item disabled" href="#">Decline Curve (Soon)</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle disabled" href="#" role="button" data-bs-toggle="dropdown">
+                            Production
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">IPR / VLP</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link disabled" href="#">Well Log</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="#">Drilling</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pb-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+                        <li class="breadcrumb-item">Reservoir</li>
+                        <li class="breadcrumb-item active" aria-current="page">PVT Analysis</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold text-dark"><i class="bi bi-calculator"></i> Gas PVT Properties</h2>
+                <p class="text-muted">Calculate Z-Factor, Bg, Density, Viscosity, and Pseudo-Critical Properties.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-sliders"></i> Input Parameters
+                    </div>
+                    <div class="card-body">
+                        
+                        <h6 class="fw-bold text-primary mb-3">Physical Properties</h6>
+                        <div class="mb-2">
+                            <label class="form-label small">Pressure (psia)</label>
+                            <input type="number" class="form-control" id="pressure" placeholder="e.g. 3000">
+                            <div class="invalid-feedback">Range: 1 - 20,000 psia</div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small">Temperature (°F)</label>
+                            <input type="number" class="form-control" id="temperature" placeholder="e.g. 200">
+                            <div class="invalid-feedback">Range: 1 - 500 °F</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Gas Gravity (SG)</label>
+                            <input type="number" class="form-control" id="gravity" step="0.01" placeholder="e.g. 0.7">
+                            <div class="invalid-feedback">Range: 0.5 - 1.5</div>
+                        </div>
+
+                        <hr>
+
+                        <h6 class="fw-bold text-danger mb-3">Impurities (%)</h6>
+                        <div class="row g-2 mb-3">
+                            <div class="col-4">
+                                <label class="form-label small">N2</label>
+                                <input type="number" class="form-control form-control-sm" id="n2" value="0">
+                                <div class="invalid-feedback">Max 100%</div>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small">CO2</label>
+                                <input type="number" class="form-control form-control-sm" id="co2" value="0">
+                                <div class="invalid-feedback">Max 100%</div>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label small">H2S</label>
+                                <input type="number" class="form-control form-control-sm" id="h2s" value="0">
+                                
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <h6 class="fw-bold text-secondary mb-3">Correlations</h6>
+                        
+                        <div class="mb-2">
+                            <label class="form-label small">Pseudo-Critical Method</label>
+                            <select class="form-select form-select-sm" id="ppc_method">
+                                <option value="Natural Gas">Natural Gas (Sutton)</option>
+                                <option value="Gas Condensate">Gas Condensate</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label small">Impurity Correction</label>
+                            <select class="form-select form-select-sm" id="correction_method">
+                                <option value="Wichert-Aziz">Wichert-Aziz</option>
+                                <option value="Carr-Kobayashi-Burrows">Carr-Kobayashi-Burrows</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label small">Z-Factor Method</label>
+                            <select class="form-select form-select-sm" id="z_method">
+                                <option value="DAK">Dranchuk-Abou-Kassem</option>
+                                <option value="Hall-Yarborough">Hall-Yarborough</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label small">Viscosity Method</label>
+                            <select class="form-select form-select-sm" id="viscosity_method">
+                                <option value="Lee-Gonzalez-Eakin">Lee-Gonzalez-Eakin</option>
+                                <option value="Carr-Kobayashi-Burrows">Carr-Kobayashi-Burrows</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-success w-100 fw-bold py-2 shadow-sm" onclick="hitungGas()">
+                            <i class="bi bi-lightning-charge"></i> CALCULATE
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                
+                <div id="placeholder-info" class="text-center py-5 bg-white rounded shadow-sm">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2920/2920349.png" alt="Data" width="100" style="opacity: 0.5;">
+                    <h5 class="mt-3 text-muted">Ready to Calculate</h5>
+                    <p class="text-secondary small">Input fluid properties on the left panel to see results.</p>
+                </div>
+
+                <div id="result-area" style="display: none;">
+                    
+                    <div class="alert alert-success d-flex align-items-center mb-4 shadow-sm" role="alert">
+                        <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+                        <div>
+                            Calculation completed successfully!
+                        </div>
+                    </div>
+
+                    <div class="card bg-primary text-white mb-4 shadow text-center">
+                        <div class="card-body py-4">
+                            <h6 class="text-uppercase opacity-75">Gas Deviation Factor (Z)</h6>
+                            <h1 class="display-3 fw-bold mb-0" id="res-z">0.0000</h1>
+                            <small>Dimensionless</small>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card result-box h-100 shadow-sm border-0">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase small">Gas Density (<i class="bi bi-bucket"></i>)</h6>
+                                    <h3 class="fw-bold text-dark" id="res-rho">-</h3>
+                                    <small class="text-secondary">lb/cu ft</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card result-box h-100 shadow-sm border-0">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase small">Formation Volume Factor (Bg)</h6>
+                                    <h3 class="fw-bold text-dark" id="res-bg">-</h3>
+                                    <small class="text-secondary">cu ft/scf</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card result-box h-100 shadow-sm border-0">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase small">Viscosity (<i class="bi bi-water"></i>)</h6>
+                                    <h4 class="fw-bold text-dark" id="res-visc">-</h4>
+                                    <small class="text-secondary">cp</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card result-box h-100 shadow-sm border-0">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase small">Compressibility (Cg)</h6>
+                                    <h4 class="fw-bold text-dark" id="res-cg">-</h4>
+                                    <small class="text-secondary">psi⁻¹</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card result-box h-100 shadow-sm border-0">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted text-uppercase small">Pseudo-Critical P</h6>
+                                    <h4 class="fw-bold text-dark" id="res-ppc">-</h4>
+                                    <small class="text-secondary">psia</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div> </div> </div>
+        </div>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="pvt.js"></script>
+    
+    <script>
+        // Override fungsi hitungGas biar bisa update tampilan UI (Placeholder vs Result)
+        const originalFunc = hitungGas;
+        hitungGas = async function() {
+            // Jalankan logika asli di pvt.js
+            await originalFunc();
+            
+            // Cek apakah hasilnya sudah muncul (artinya sukses)
+            if (document.getElementById("result-area").style.display === "block") {
+                document.getElementById("placeholder-info").style.display = "none";
+                // Scroll smooth ke hasil
+                document.getElementById("result-area").scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

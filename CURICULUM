@@ -1,0 +1,295 @@
+**Ingat, danlap. Sangat jelas.**
+Dan aku bisa jelaskan **utuh dari atas ke bawah** tanpa ngarang ulang.
+
+Program ini adalah **Program Software Development Engineer dengan spesialisasi Teknik Perminyakan**, berdurasi **3 bulan**, dengan prinsip:
+
+> **Petroleum knowledge = dari kamu**
+> **Software engineering maturity = dari aku**
+
+Setiap minggu **project-based**, setiap hari **eksekusi**, dan tiap bulan **level-up besar**.
+
+---
+
+## 🧭 VISI BESAR PROGRAM (3 BULAN)
+
+**Target akhir (Week 12):**
+Kamu memiliki **Petroleum Engineering Web Platform** berisi modul-modul teknik perminyakan yang:
+
+* Perhitungannya *engineering-grade*
+* Kodenya *software-engineer-grade*
+* Bisa kamu klaim sebagai **software dev engineer (petroleum domain)**
+
+---
+
+## 🧱 STRUKTUR UTAMA (3 BULAN)
+
+Program ini naik lewat **3 fase besar**:
+
+1. **Foundation (Month 1)**
+   *Scientific computing → backend API*
+2. **System Engineering (Month 2)**
+   *Multi-module, coupling, optimization*
+3. **Reliability & Product (Month 3)**
+   *Trustworthy tools, interpretation, delivery*
+
+Setiap fase **punya fokus software-dev yang berbeda**.
+
+---
+
+# 🔹 MONTH 1 — SCIENTIFIC & BACKEND FOUNDATION
+
+🎯 *“Saya bisa mengubah rumus teknik perminyakan menjadi backend software yang rapi, aman, dan bisa dipakai orang lain.”*
+
+---
+
+## ✅ WEEK 1 — Scientific Core + API Skeleton
+
+(**Sedang kita jalani sekarang**)
+
+### Petroleum Focus
+
+PVT properties (Z, Bo, Bg)
+
+### Software Dev Focus (INTI)
+
+* Folder & module architecture
+* Pure function design
+* Separation of concern (engine vs API)
+* Basic backend lifecycle
+* Manual testing mindset
+
+### Output
+
+👉 **PVT Engine + FastAPI skeleton**
+
+---
+
+## ✅ WEEK 2 — Equation System & Validation
+
+### Petroleum
+
+Material Balance
+
+### Software Dev
+
+* Multi-input computation
+* Validation layer
+* Error handling
+* Plot-based output
+
+### Output
+
+👉 **Material Balance API**
+
+---
+
+## ✅ WEEK 3 — Data Transformation & Regression
+
+### Petroleum
+
+Havlena–Odeh
+
+### Software Dev
+
+* Data preprocessing
+* Regression workflow
+* Interpretation layer
+
+### Output
+
+👉 **Drive mechanism identifier**
+
+---
+
+## ✅ WEEK 4 — Simulation & Uncertainty
+
+### Petroleum
+
+Volumetric + Monte Carlo
+
+### Software Dev
+
+* Simulation loop
+* Random sampling
+* Performance awareness
+* Statistical output
+
+### Output (Monthly)
+
+👉 **Probabilistic reserve estimator**
+
+---
+
+# 🔹 MONTH 2 — SYSTEM ENGINEERING & INTEGRATION
+
+🎯 *“Saya bisa menghubungkan banyak model teknik menjadi satu sistem yang konsisten.”*
+
+---
+
+## ✅ WEEK 5 — Model Strategy & Extensibility
+
+### Petroleum
+
+IPR models
+
+### Software Dev
+
+* Strategy pattern (konseptual)
+* Model switching
+* Extensible interfaces
+
+### Output
+
+👉 **Multi-model IPR tool**
+
+---
+
+## ✅ WEEK 6 — System Coupling
+
+### Petroleum
+
+TPR + Nodal
+
+### Software Dev
+
+* Engine orchestration
+* Root finding
+* Failure handling
+
+### Output
+
+👉 **Nodal analysis tool**
+
+---
+
+## ✅ WEEK 7 — Sensitivity & Optimization
+
+### Petroleum
+
+Artificial Lift
+
+### Software Dev
+
+* Parameter sweep
+* Sensitivity analysis
+* Recommendation logic
+
+### Output
+
+👉 **Lift sensitivity tool**
+
+---
+
+## ✅ WEEK 8 — Product Integration
+
+### Petroleum
+
+Production system
+
+### Software Dev
+
+* Shared core library
+* API consistency
+* Frontend integration
+
+### Output (Monthly)
+
+👉 **Integrated production module**
+
+---
+
+# 🔹 MONTH 3 — RELIABILITY, INTERPRETATION & PRODUCT
+
+🎯 *“Saya membangun software yang bisa dipercaya engineer lain.”*
+
+---
+
+## ✅ WEEK 9 — Time-Series & Interpretation
+
+### Petroleum
+
+Well test (drawdown/buildup)
+
+### Software Dev
+
+* Time-series processing
+* Regime detection
+* Noise handling
+
+### Output
+
+👉 **Well test analyzer**
+
+---
+
+## ✅ WEEK 10 — Pattern Matching & Confidence
+
+### Petroleum
+
+Type curve & boundary
+
+### Software Dev
+
+* Matching algorithm
+* Scoring system
+* Confidence metric
+
+### Output
+
+👉 **Semi-auto interpreter**
+
+---
+
+## ✅ WEEK 11 — Safety-Critical Computation
+
+### Petroleum
+
+Drilling engineering
+
+### Software Dev
+
+* Constraint checking
+* Risk-aware output
+* Fail-safe design
+
+### Output
+
+👉 **Mud window & ECD tool**
+
+---
+
+## ✅ WEEK 12 — Productization & Delivery
+
+### Petroleum
+
+Integrated workflow
+
+### Software Dev
+
+* Documentation
+* Usability mindset
+* Final demo
+
+### Final Output
+
+👉 **Petroleum Engineering Software Platform**
+
+---
+
+## 🧠 HAL TERPENTING (BIAR KAMU TENANG)
+
+* Kurikulum **tidak berubah**
+* Alur **logis & bertahap**
+* Kamu **tidak belajar coding random**
+* Setiap minggu:
+
+  * Ada **kenaikan skill software**
+  * Ada **produk nyata**
+* Ini **cukup kuat untuk CV, KP, dan portfolio**
+
+Kalau mau, langkah berikutnya kita bisa:
+
+* Mengunci **Day 3 Week 1 secara detail**, atau
+* Membuat **skill checklist software-dev** yang kamu centang tiap minggu
+
+Tinggal bilang.

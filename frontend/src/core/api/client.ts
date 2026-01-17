@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Kita buat instance axios khusus
 const apiClient = axios.create({
-  baseURL: 'https://petroapp-engine-9yfragqvfz9zwgkuhgxkrx.streamlit.app', // Alamat Backend Python Anda
+  baseURL: 'https://petrohub.vercel.app', // Alamat Backend Python Anda
   headers: {
     'Content-Type': 'application/json',
   },

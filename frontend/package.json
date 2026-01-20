@@ -19,6 +19,7 @@
     "bootstrap": "^5.3.8",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "recharts": "^3.6.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"
   },

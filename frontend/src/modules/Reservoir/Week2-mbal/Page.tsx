@@ -190,7 +190,7 @@ export default function MaterialBalancePage() {
       `}</style>
 
       {/* --- 1. NAVBAR --- */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-4 shadow-sm">
+      {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-4 shadow-sm">
         <div className="container">
             <a className="navbar-brand fw-bold" href="../index.html">⛽ PetroHub</a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -210,6 +210,63 @@ export default function MaterialBalancePage() {
                             <li><a className="dropdown-item disabled" href="#">Decline Curve (Soon)</a></li>
                         </ul>
                     </li>
+                </ul>
+            </div>
+        </div>
+      </nav> */}
+
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-4">
+        <div className="container">
+            <a className="navbar-brand fw-bold" href="../index.html">⛽ PetroHub</a>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav ms-auto">
+                    <li className="nav-item"><a className="nav-link" href="../index.html">Home</a></li>
+
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            Reservoir
+                        </a>
+                        <ul className="dropdown-menu">
+                            <li>
+                                <a className="dropdown-item active" href="pvt.html">
+                                    <i className="bi bi-droplet-half"></i> PVT Analysis
+                                </a>
+                            </li>
+
+                            <li>
+                                <a className="dropdown-item" href="material-balance.html">
+                                    <i className="bi bi-lightning-charge"></i> Material Balance (Two Point)
+                                </a>
+                            </li>
+
+                            <li>
+                                <a className='dropdown-item' href="havlena-odeh.html">
+                                    <i className="bi bi-gear-fill"></i> Material Balance (Havlena-Odeh)
+                                </a>
+                            </li>
+
+                            <li><hr className="dropdown-divider"></hr></li>
+
+                            <li>
+                                <a className="dropdown-item disabled" href="#">Decline Curve (Soon)</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle disabled" href="#" role="button" data-bs-toggle="dropdown">
+                            Production
+                        </a>
+                        <ul className="dropdown-menu">
+                            <li><a className="dropdown-item" href="#">IPR / VLP</a></li>
+                        </ul>
+                    </li>
+
+                    <li className="nav-item"><a className="nav-link disabled" href="#">Well Log</a></li>
+                    <li className="nav-item"><a className="nav-link disabled" href="#">Drilling</a></li>
                 </ul>
             </div>
         </div>

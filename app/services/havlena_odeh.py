@@ -6,6 +6,9 @@ from app.models.havlena_odeh import (
 # Import transformation logic yang sudah kita buat sebelumnya
 from app.domain.havlena_odeh.transformation import calculate_single_step
 
+# Import regression logic yang dibuat pada day 2
+from app.domain.havlena_odeh.regression import solve_havlena_odeh_regression
+
 def process_havlena_odeh_data(data: HavlenaOdehInput) -> HavlenaOdehResponse:
     """
     [Service Day 1]
@@ -13,6 +16,14 @@ def process_havlena_odeh_data(data: HavlenaOdehInput) -> HavlenaOdehResponse:
     1. Menerima input data produksi.
     2. Melakukan transformasi data menjadi variable MBE (F, Eo, Eg, Efw, We).
     3. Mengembalikan Response Struktur Lengkap (dengan placeholder untuk Regresi).
+    """
+
+    """
+    [Service Day 2]
+    Orkestrator Utama:
+    1. Mengubah Data Raw -> Komponen MBE (F, Eo, dll).
+    2. Mengirim Komponen MBE -> Engine Regresi (sesuai Skenario).
+    3. Mengembalikan Hasil Analisis Lengkap.
     """
     
     # 1. Siapkan Wadah List (Container)
@@ -62,24 +73,35 @@ def process_havlena_odeh_data(data: HavlenaOdehInput) -> HavlenaOdehResponse:
     # kita isi variable hasil regresi dengan nilai DEFAULT (0.0) 
     # agar Pydantic tidak error (Validation Error).
     
-    dummy_regression = RegressionResult(
-        slope=0.0,
-        intercept=0.0,
-        r_squared=0.0,
-        N=0.0,          # Belum dihitung
-        m=None,         # Optional
-        We=None         # Optional
+    # dummy_regression = RegressionResult(
+    #     slope=0.0,
+    #     intercept=0.0,
+    #     r_squared=0.0,
+    #     N=0.0,          # Belum dihitung
+    #     m=None,         # Optional
+    #     We=None         # Optional
+    # )
+
+    # Day 2 -> mesin regresi baru jalan
+    regression_output = solve_havlena_odeh_regression(
+        scenario=data.scenario,
+        F=F_list,
+        Eo=Eo_list,
+        Eg=Eg_list,
+        Efw=Efw_list,
+        We=We_list,
+        input_m=props.m  # Penting untuk Skenario 1, 2, 4
     )
 
     return HavlenaOdehResponse(
         # A. Data Visualisasi (Masih Kosong di Day 1)
-        x_points=[],
-        y_points=[],
-        regression_line=[],
+        x_points=regression_output["x_points"],
+        y_points=regression_output["y_points"],
+        regression_line=regression_output["regression_line"],
         
         # B. Hasil Regresi (Placeholder)
-        results=dummy_regression,
-        
+        results=regression_output["result_object"],
+
         # C. Hasil Drive Index (Placeholder)
         drive_indices=None,
         

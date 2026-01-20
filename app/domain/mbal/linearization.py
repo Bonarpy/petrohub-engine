@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 from app.models.material_balance import ReservoirAssumption
 
 def calculate_x_axis(
@@ -34,7 +34,8 @@ def calculate_x_axis(
 def calculate_y_axis(
     f: float, 
     we: float, 
-    assumptions: List[ReservoirAssumption]
+    assumptions: List[ReservoirAssumption],
+    method: str
 ) -> float:
     """
     Menghitung Sumbu Y (Net Withdrawal).
@@ -44,5 +45,7 @@ def calculate_y_axis(
         influx = 0.0
     else:
         influx = we
-        
+
     return f - influx
+
+

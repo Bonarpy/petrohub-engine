@@ -61,6 +61,14 @@ from fastapi.middleware.cors import CORSMiddleware
 # --- 1. IMPORT ROUTER (DENGAN PENGECEKAN) ---
 # Kita pakai try-except biar kalau file Week 1 hilang, Week 2 tetap jalan (dan sebaliknya)
 
+# Import Week 3: Havlena-Odeh
+try:
+    from app.api import havlena_odeh
+    havlena_activate = True
+except ImportError as e:
+    print(f"⚠️ Warning: Modul Havlena-Odeh tidak ditemukan/error. {e}")
+    havlena_activate = False
+
 # Import Week 2: Material Balance
 try:
     from app.api import material_balance
@@ -94,7 +102,7 @@ except ImportError:
 app = FastAPI(
     title="PetroHub API",
     description="Backend Engine for Material Balance & PVT",
-    version="2.5.0",  # Tandai ini agar lo tahu ini build baru
+    version="3.0.0",  # Tandai ini agar lo tahu ini build baru
     redirect_slashes=False
 )
 
@@ -141,6 +149,10 @@ if pvt_active:
     # Opsi Cadangan (Uncomment jika Opsi 1 masih 404):
     # app.include_router(pvt_router.router, prefix="/pvt", tags=["PVT Gas Alternative"])
 
+# C. Pasang Kabel Week 3 (Havlena-Odeh)
+if havlena_activate:
+    app.include_router(havlena_odeh.router, prefix="/havlena-odeh", tags=["Havlena-Odeh"])
+
 # --- 5. HEALTH CHECK ---
 @app.get("/")
 def read_root():
@@ -149,6 +161,7 @@ def read_root():
         "status": "Running 🚀",
         "modules": {
             "material_balance": "Active" if mbal_active else "Inactive",
-            "pvt_gas": "Active" if pvt_active else "Inactive"
+            "pvt_gas": "Active" if pvt_active else "Inactive",
+            "havlena_odeh": "Active" if havlena_activate else "Inactive"
         }
     }

@@ -1,13 +1,20 @@
+# app/services/havlena_odeh.py
+
 from app.models.havlena_odeh import (
     HavlenaOdehInput, 
     HavlenaOdehResponse, 
-    RegressionResult
+    RegressionResult,
+    DriveIndices,          
+    DriveMechanismType
 )
-# Import transformation logic yang sudah kita buat sebelumnya
+# Import transformation logic yang sudah kita buat sebelumnya day 1
 from app.domain.havlena_odeh.transformation import calculate_single_step
 
 # Import regression logic yang dibuat pada day 2
 from app.domain.havlena_odeh.regression import solve_havlena_odeh_regression
+
+# Import interpretation logic yang dibuat pada day 3
+from app.domain.havlena_odeh.interpretation import identify_drive_mechanism
 
 def process_havlena_odeh_data(data: HavlenaOdehInput) -> HavlenaOdehResponse:
     """
@@ -24,6 +31,14 @@ def process_havlena_odeh_data(data: HavlenaOdehInput) -> HavlenaOdehResponse:
     1. Mengubah Data Raw -> Komponen MBE (F, Eo, dll).
     2. Mengirim Komponen MBE -> Engine Regresi (sesuai Skenario).
     3. Mengembalikan Hasil Analisis Lengkap.
+    """
+
+    """
+    [Service Day 3]
+    Orkestrator Utama:
+    1. Menganalisis data regresi menjadi perhitungan drive index
+    2. Mengirim data drive regresi ke perhitungan drive index
+    3. Mengembalikan komponen drive index serta dominant drive index untuk reservoir tersebut.
     """
     
     # 1. Siapkan Wadah List (Container)
@@ -93,19 +108,26 @@ def process_havlena_odeh_data(data: HavlenaOdehInput) -> HavlenaOdehResponse:
         input_m=props.m  # Penting untuk Skenario 1, 2, 4
     )
 
-    return HavlenaOdehResponse(
-        # A. Data Visualisasi (Masih Kosong di Day 1)
-        x_points=regression_output["x_points"],
-        y_points=regression_output["y_points"],
-        regression_line=regression_output["regression_line"],
-        
-        # B. Hasil Regresi (Placeholder)
-        results=regression_output["result_object"],
+    # Day 3 -> mesin penentuan drive index
+    calculated_indices = None
 
-        # C. Hasil Drive Index (Placeholder)
-        drive_indices=None,
-        
-        # D. Data Audit (INI YANG SUDAH REAL HASIL PERHITUNGAN)
+    calculated_indices = identify_drive_mechanism(
+        regression_result=regression_output,
+        F=F_list,
+        Eo=Eo_list,
+        Eg=Eg_list,
+        history=data.history,
+        input_m=props.m
+    )
+
+    return HavlenaOdehResponse(
+        # A. Hasil Regresi (Placeholder)
+        results=regression_output,
+
+        # B. Hasil Drive Index (Placeholder)
+        drive_indices=calculated_indices,
+
+        # C. Data Audit (INI YANG SUDAH REAL HASIL PERHITUNGAN)
         F=F_list,
         Eo=Eo_list,
         Eg=Eg_list,

@@ -95,6 +95,56 @@ Havlena–Odeh
 * Regression workflow
 * Interpretation layer
 
+🟢 Day 1 — Architecture & Data Contract ✅ DONE
+
+Contract-first models
+
+Modular separation
+
+Service shell siap
+
+➡️ Fondasi sistem
+
+🟡 Day 2 — Regression Engine (Strategy Pattern)
+
+Implementasi 4 skenario regresi
+
+Mapping matematis → parameter teknik
+
+Engine reusable
+
+➡️ Otak analisis
+
+🟡 Day 3 — Drive Mechanism Identification
+
+Hitung DDI, SDI, WDI
+
+Dominant drive logic
+
+Confidence & ranking
+
+➡️ Makna teknik
+
+🔵 Day 4 — Frontend Analytical Visualization
+
+Scatter + regression line
+
+Dynamic axis & labeling
+
+Scenario-aware plotting
+
+➡️ Engineer bisa “melihat” data
+
+🔵 Day 5 — UX, Scenario Switching & Insight Delivery
+
+Scenario toggle
+
+State management
+
+Real-time interpretation update
+
+➡️ Tool siap dipakai engineer
+
 ### Output
 
 👉 **Drive mechanism identifier**

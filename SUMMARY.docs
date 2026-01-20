@@ -171,3 +171,35 @@ Keputusan untuk menggunakan **Enum** dalam mengelola asumsi reservoir (dibanding
 ✅ **Smart:** Sistem mampu memilih rumus yang tepat berdasarkan skenario reservoir (Volumetric, Undersaturated, dll).
 ✅ **Communicative:** Output error berupa JSON terstruktur yang mudah dibaca oleh mesin lain (persiapan Golang).
 ⚠️ **Pending:** Data output masih berupa angka mentah, belum dilakukan linearisasi sumbu () untuk kebutuhan visualisasi grafik.
+
+Week 3 
+🟢 Day 1: 
+Architecture & Data Contract (Fondasi Sistem)Pada hari pertama, kita menerapkan prinsip "Contract-First Development" 
+menggunakan Pydantic. Artinya, sebelum menulis logika yang rumit, kita menyepakati dulu bentuk data yang masuk 
+(Input) dan keluar (Response) melalui models/havlena_odeh.py. Kita mendefinisikan enum untuk Skenario Regresi dan 
+struktur data untuk Drive Indices. Ini menjamin bahwa Frontend dan Backend memiliki "bahasa yang sama" dan 
+mencegah bug akibat ketidakcocokan tipe data di kemudian hari.Selanjutnya, kita melakukan Modular Separation 
+(pemisahan modul) yang tegas. Kita memisahkan "Core Physics" (rumus murni Week 2) dari "Analytical Logic" 
+(transformasi data Week 3) ke dalam folder domain yang berbeda. Dengan cara ini, logika fisika yang sudah valid 
+tidak akan terganggu oleh eksperimen logika analisis yang baru. Kita juga menerapkan Clean Architecture dengan 
+memisahkan logika bisnis di services dan perhitungan murni di domain.Terakhir, kita membangun Service Shell 
+atau kerangka orkestrator di services/havlena_odeh.py. Service ini bertugas melakukan batch processing (looping) 
+terhadap data history produksi untuk menghitung variabel fisika ($F, E_o, E_g, E_{fw}$). Meskipun pada tahap ini 
+hasil regresinya masih berupa placeholder (dummy), pipa aliran data dari Input menuju Output sudah tersambung 
+sepenuhnya, menciptakan fondasi sistem yang siap dipasangi "otak" di hari berikutnya.
+
+🟢 Day 2: 
+Regression Engine (Otak Analisis)Pada hari kedua, kita membangun "otak matematika" sistem di 
+domain/havlena_odeh/regression.py. Kita membuat fungsi regresi linear (Least Squares) yang reusable, artinya 
+mesin hitung ini berdiri sendiri dan bisa dipakai ulang untuk keperluan lain. Kita juga melakukan Refactoring 
+pada models dengan membungkus hasil statistik, fisika, dan titik koordinat visualisasi ke dalam satu objek 
+RegressionResult yang terenkapsulasi rapi, sehingga data tidak tercecer.Inti dari hari kedua adalah implementasi 
+Strategy Pattern untuk menangani 4 Skenario Havlena-Odeh. Alih-alih membuat 4 fungsi yang berbeda, kita membuat 
+satu fungsi cerdas yang bisa menentukan sumbu $X$ dan $Y$ secara dinamis berdasarkan pilihan user (Skenario). 
+Logika ini juga menangani edge cases, seperti menghindari pembagian dengan nol pada Skenario 3 dan mengabaikan 
+kompresibilitas batuan pada skenario tertentu agar hasil regresi tetap linear dan valid secara praktik lapangan.
+Terakhir, kita melakukan Mapping Matematis ke Teknik. Sistem kini mampu menerjemahkan angka abstrak statistik 
+(Slope dan Intercept) menjadi parameter reservoir yang bermakna ($N, m, W_e$). Kita menghubungkan engine ini ke 
+dalam Service Layer, menggantikan dummy code hari pertama dengan logika nyata. Hasilnya, Backend kini bukan 
+sekadar kalkulator fisika, melainkan Analytical Engine yang mampu mencari parameter reservoir berdasarkan pola 
+data produksi.

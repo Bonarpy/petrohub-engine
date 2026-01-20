@@ -1,3 +1,5 @@
+# app/domain/havlena_odeh/regression.py
+
 import math
 from typing import List, Tuple, Dict, Any
 from app.models.havlena_odeh import HavlenaOdehScenario, RegressionResult
@@ -42,11 +44,12 @@ def solve_havlena_odeh_regression(
     Efw: List[float],
     We: List[float],
     input_m: float
-) -> Dict[str, Any]:
-    
+) -> RegressionResult:
+
     # List penampung X dan Y untuk regresi
     X_list = []
     Y_list = []
+    skip_point = False
 
     # ---------------------------------------------------------
     # TAHAP 1: DATA PREPARATION (MAPPING X & Y)
@@ -123,7 +126,7 @@ def solve_havlena_odeh_regression(
 
     elif scenario == HavlenaOdehScenario.SCENARIO_3:
         # TODO: Siapa N? Siapa m? (Ingat Slope = N*m)
-        calc_N = slope / input_m if input_m != 0 else 0
+        calc_N = intercept
         if abs(calc_N) > 1e-9:
             calc_m = slope / calc_N
         else:
@@ -140,16 +143,16 @@ def solve_havlena_odeh_regression(
     # Buat garis regresi untuk visualisasi
     regression_line = [(slope * x + intercept) for x in X_list]
 
-    return {
-        "x_points": X_list,
-        "y_points": Y_list,
-        "regression_line": regression_line,
-        "result_object": RegressionResult(
-            slope=slope,
-            intercept=intercept,
-            r_squared=r2,
-            N=calc_N,
-            m=calc_m,
-            We=calc_We
-        )
-    }
+    return RegressionResult(
+        # Visual
+        x_points=X_list,
+        y_points=Y_list,
+        regression_line=regression_line,
+        # Statistik & Fisika
+        slope=slope,
+        intercept=intercept,
+        r_squared=r2,
+        N=calc_N,
+        m=calc_m,
+        We=calc_We
+    )

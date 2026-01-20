@@ -76,6 +76,11 @@ class HavlenaOdehInput(BaseModel):
 
 class RegressionResult(BaseModel):
     """Hasil Matematika & Fisika dari Backend"""
+    # Data Koordinat untuk Visualisasi
+    x_points: List[float] = Field(..., description="Coordinates for X-axis")
+    y_points: List[float] = Field(..., description="Coordinates for Y-axis")
+    regression_line: List[float] = Field(..., description="Best-fit line Y-values")
+
     # Statistik Regresi
     slope: float
     intercept: float
@@ -111,19 +116,14 @@ class DriveIndices(BaseModel):
 class HavlenaOdehResponse(BaseModel):
     """Response lengkap untuk React"""
     
-    # A. Data Visualisasi (Chart)
-    x_points: List[float]
-    y_points: List[float]
-    regression_line: List[float]
-    
-    # B. Hasil Regresi (N, m, Slope, R2)
+    # A. Data Visualisasi (Chart) dan Hasil Regresi (N, m, Slope, R2)
     results: RegressionResult
     
-    # C. Hasil Drive Index (DDI, SDI, WDI, Dominant Str)
+    # B. Hasil Drive Index (DDI, SDI, WDI, Dominant Str)
     # Optional: Karena baru muncul setelah regresi sukses & N ditemukan
     drive_indices: Optional[DriveIndices] = Field(None, description="Reservoir drive mechanism analysis")
     
-    # D. Data Audit (Raw Terms)
+    # C. Data Audit (Raw Terms)
     F: List[float]
     Eo: List[float]
     Eg: List[float]

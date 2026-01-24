@@ -13,6 +13,8 @@ export default defineConfig({
         pvt: resolve(__dirname, 'reservoir/pvt.html'),
         // 3. Kamar Baru (Material Balance Week 2 - Nanti kita buat)
         mbal: resolve(__dirname, 'reservoir/material-balance.html'),
+        // 4. Kamar baru (Havlena-Odeh)
+        havlena: resolve(__dirname, 'reservoir/havlena-odeh.html'),
       },
     },
   },

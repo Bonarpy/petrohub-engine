@@ -390,9 +390,9 @@ export default function MaterialBalancePage() {
                 <div className="card shadow-sm border-0 mb-4 h-100">
                     <div className="card-header bg-success text-white d-flex justify-content-between align-items-center">
                         <span><i className="bi bi-table me-2"></i> 3. Production History</span>
-                        <button onClick={addRow} className="btn btn-sm btn-light text-success fw-bold border-0 shadow-sm">
+                        {/* <button onClick={addRow} className="btn btn-sm btn-light text-success fw-bold border-0 shadow-sm">
                             <i className="bi bi-plus-lg"></i> Row
-                        </button>
+                        </button> */}
                     </div>
                     <div className="card-body p-0">
                         <div className="table-responsive" style={{maxHeight: '450px'}}>

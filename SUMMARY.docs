@@ -203,3 +203,31 @@ Terakhir, kita melakukan Mapping Matematis ke Teknik. Sistem kini mampu menerjem
 dalam Service Layer, menggantikan dummy code hari pertama dengan logika nyata. Hasilnya, Backend kini bukan 
 sekadar kalkulator fisika, melainkan Analytical Engine yang mampu mencari parameter reservoir berdasarkan pola 
 data produksi.
+
+🟡 Day 3:
+Drive Mechanism Identification (Makna Teknik)Pada hari ketiga, kita mengubah Backend dari sekadar mesin hitung
+statistik menjadi Interpreter Fisika. Kita mengimplementasikan logika perhitungan Drive Indices (DDI, SDI, WDI) 
+di dalam domain/havlena_odeh/interpreter.py. Sistem kini tidak hanya memuntahkan angka $N$ (OOIP), tetapi juga 
+mampu menganalisis "energi" apa yang mendorong minyak keluar—apakah dominan dari ekspansi gas terlarut, gas cap
+, atau dorongan air. Kita juga menanamkan Rule-Based Logic untuk menentukan Dominant Mechanism secara otomatis 
+berdasarkan proporsi indeks tersebut. Ini adalah jembatan vital yang mengubah output regresi linier menjadi 
+insight reservoir engineering yang bisa dipahami manusia.
+
+🔵 Day 4:Frontend Analytical Visualization (Mata 
+Engineer)Hari keempat fokus pada visualisasi data agar Engineer bisa "melihat" kebenaran model. Kita membangun 
+komponen visual HavlenaChart.tsx menggunakan library Recharts. Tantangan teknis terbesar adalah Data Transformation 
+di sisi klien—mengubah array terpisah dari Python ($X, Y,$ dan Garis Regresi) menjadi objek terpadu yang bisa 
+dibaca grafik. Kita juga menerapkan Dynamic Axis Labeling, di mana label sumbu grafik dan format data berubah 
+secara otomatis mengikuti Skenario Havlena-Odeh yang dipilih (misal: sumbu X berubah dari $E_o$ menjadi $E_t
+$). Hasilnya adalah Scatter Plot (Data Produksi) yang ditimpa dengan Line Chart (Model Teoretis) dalam satu 
+kanvas yang responsif.
+
+🔵 Day 5:
+UX, Scenario Switching & Integration (Sistem Utuh)Hari kelima adalah momen "pemberian nyawa". Kita menghubungkan 
+Frontend React dengan Backend Python menggunakan Axios dan membangun State Management yang kompleks di Page.tsx. 
+Fitur kuncinya adalah "Reactive Logic" menggunakan useEffect: ketika user mengganti Skenario (misal ke 
+Scenario 1:F vs Eo), sistem secara cerdas mereset asumsi fisika (otomatis set no_gas_cap dan $m=0$) untuk 
+mencegah kesalahan input pengguna. Kita juga menaklukkan tantangan Integrasi Data, membereskan validasi 
+Pydantic (Error 422), menyamakan format Enum antar bahasa, dan menangani Hidden Defaults (seperti $P_b$). 
+Kini, aplikasi sudah berjalan End-to-End: Input Data $\rightarrow$ API $\rightarrow$ Math Engine $\rightarrow$ 
+Hasil Visual & Interpretasi Fisika.
